@@ -1,0 +1,141 @@
+<!-- <div class="card">
+  <h4 class="card-header">Register</h4>
+  <div class="card-body">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input type="text" formControlName="firstName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+              <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                  <div *ngIf="f.firstName.errors.required">First Name is required</div>
+              </div>
+          </div>
+          <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input type="text" formControlName="lastName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+              <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                  <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+              </div>
+          </div>
+          <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+              <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                  <div *ngIf="f.username.errors.required">Username is required</div>
+              </div>
+          </div>
+          <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                  <div *ngIf="f.password.errors.required">Password is required</div>
+                  <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+              </div>
+          </div>
+          <div class="form-group">
+              <button [disabled]="loading" class="btn btn-primary">
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                  Register
+              </button>
+              <a routerLink="../login" class="btn btn-link">Cancel</a>
+          </div>
+      </form>
+  </div>
+</div> -->
+
+
+<div class="tab-pane container fade">
+    <div class="box2 ">
+      <form class="" [formGroup]="resetForm" (ngSubmit)="submitChangePassword()">
+        <p id="txtLbl">Old Password</p>
+        <div class="row justify-content-between">
+          <div class="col-lg-12">
+            <div class="form-group password_wrap">
+              <i class="fa fa-eye-slash eye_icon" aria-hidden="true"
+                (click)="passwordVisibleToggle('oldPassword')"></i>
+              <input class="form-control  m-input" type="password" placeholder="Old Password"
+                formControlName="oldPassword" id="oldPassword" autocomplete="off">
+              <div class="error" *ngIf="submitted && resetForm.controls.oldPassword.errors">
+                <div class="custom_error" *ngIf="resetForm.controls.oldPassword.errors?.required">
+                  Old password is required
+                </div>
+                <!-- <div class="custom_error mt-2" *ngIf="resetForm.controls.oldPassword.errors?.notEquivalent">
+                    Password doesn't match
+                  </div> -->
+              </div>
+            </div>
+            <p id="txtLbl">New Password</p>
+            <div class="form-group password_wrap">
+              <i class="fa fa-eye-slash eye_icon" aria-hidden="true"
+                (click)="passwordVisibleToggle('password')"></i>
+              <input class="form-control m-input" type="password" placeholder="Enter new password"
+                formControlName="password" id="password" autocomplete="off">
+              <ul class="help_text">
+                <li [ngClass]="{'green' : !resetForm.controls.password.errors?.minChar,
+                      'custom_error' : resetForm.controls.password.errors?.minChar}">
+                  {{ resetForm.controls.password.errors?.minChar ? '': '-'}} 8 character minimum</li>
+                <li [ngClass]="{'green' : !resetForm.controls.password.errors ,
+                  'custom_error' : resetForm.controls.password.errors?.maxChar ,
+                  'help' : resetForm.controls.password.errors?.minChar ||
+                  resetForm.controls.password.errors?.upperCaseError ||
+                  resetForm.controls.password.errors?.lowerCaseError || resetForm.controls.password.errors?.numberError||
+                  resetForm.controls.password.errors?.specialChar}">
+                  {{ resetForm.controls.password.errors?.maxChar ? '': '-'}} 15 characters maximum </li>
+                <li [ngClass]="{'green' : !resetForm.controls.password.errors ||
+                  resetForm.controls.password.errors?.lowerCaseError ||
+                  resetForm.controls.password.errors?.numberError,
+                  'custom_error' : resetForm.controls.password.errors?.upperCaseError,
+                  'help' : resetForm.controls.password.errors?.minChar|| 
+                  resetForm.controls.password.errors?.specialChar }">
+                  {{ resetForm.controls.password.errors?.upperCaseError ? '': '-'}}At least one uppercase
+                  character</li>
+                <li [ngClass]="{'green' : !resetForm.controls.password.errors ||
+                  resetForm.controls.password.errors?.numberError,
+                  'custom_error' : resetForm.controls.password.errors?.lowerCaseError,
+                  'help' : resetForm.controls.password.errors?.minChar ||
+                  resetForm.controls.password.errors?.upperCaseError||
+                  resetForm.controls.password.errors?.specialChar}">
+                  {{ resetForm.controls.password.errors?.lowerCaseError ? '': '-'}}At least one lowercase
+                  character</li>
+                <li [ngClass]="{'green' : !resetForm.controls.password.errors ,
+                  'custom_error' : resetForm.controls.password.errors?.numberError,
+                  'help' : resetForm.controls.password.errors?.minChar ||
+                  resetForm.controls.password.errors?.upperCaseError ||
+                  resetForm.controls.password.errors?.lowerCaseError  ||
+                  resetForm.controls.password.errors?.specialChar}">
+                  {{ resetForm.controls.password.errors?.numberError ? '': '-'}}At least one number</li>
+                <li [ngClass]="{'green' : !resetForm.controls.password.errors || resetForm.controls.password.errors?.numberError,
+                  'custom_error' : resetForm.controls.password.errors?.specialChar ,
+                  'help' : resetForm.controls.password.errors?.minChar ||
+                  resetForm.controls.password.errors?.upperCaseError || resetForm.controls.password.errors?.maxChar ||
+                  resetForm.controls.password.errors?.lowerCaseError }">
+                  {{ resetForm.controls.password.errors?.specialChar ? '': '-'}} !@#$%_ Special characters are
+                  allowed </li>
+                <!-- <li class="custom_error" *ngIf="resetForm.controls.password.errors?.pattern">
+                  !@#$%_ Special characters are Not allowed and maximum 15 character
+                </li> -->
+              </ul>
+            </div>
+
+            <p id="txtLbl">Confirm New Password</p>
+            <div class="form-group password_wrap">
+              <i class="fa fa-eye-slash eye_icon" aria-hidden="true"
+                (click)="passwordVisibleToggle('confirmPassword')"></i>
+              <input class="form-control" type="password" placeholder="Confirm new password"
+                formControlName="confirmPassword" id="confirmPassword" autocomplete="off">
+              <div *ngIf="submitted && resetForm.controls.confirmPassword.errors">
+                <div class="custom_error" *ngIf="resetForm.controls.confirmPassword.errors?.required">
+                  Confirm password is required
+                </div>
+                <div class="custom_error" *ngIf="resetForm.controls.confirmPassword.errors?.notEquivalent">
+                  Password doesn't match
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="btn-form">
+            <input type="submit" value="SUBMIT" class="btn2" />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
